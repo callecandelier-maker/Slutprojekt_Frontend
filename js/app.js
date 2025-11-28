@@ -1,13 +1,10 @@
-const wrappers = document.querySelectorAll('.image-wrapper');
+// Hämta alla image-blocks
+const blocks = document.querySelectorAll('.image-block');
 
-// Lägg in bilder via CSS-variabel
-wrappers.forEach(div => {
-  div.style.setProperty('--img', `url(${div.dataset.img})`);
-});
-
-// Toggle active state vid klick
-wrappers.forEach(div => {
-  div.addEventListener('click', () => {
-    div.classList.toggle('active'); // Klick → låser/återställer
+// Lägg till click-event
+blocks.forEach(block => {
+  block.addEventListener('click', () => {
+    // Lägg till/tar bort active-klassen
+    block.classList.toggle('active');
   });
 });
