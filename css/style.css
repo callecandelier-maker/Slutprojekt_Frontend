@@ -3,6 +3,10 @@ body {
  /* font-family: Arial, sans-serif; */
   text-align: center;
 }
+.site-header {
+  background-color: #2b2b2b;
+  height: 50px;
+}
 
 .h1-txt {
   font-family: inter, sans-serif;
@@ -18,15 +22,14 @@ body {
 }
 .image-block {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   margin: 20px;
   cursor: pointer;
 }
 .image-block p {
-  font-size: 20px;
+  font-size: 18px;
   font-family: roboto thin, sans-serif;
-
 }
 
 .image-wrapper {
@@ -72,7 +75,50 @@ body {
   opacity: 1;
 }
 
+.search-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  gap: 5px;   /* ← Avståndet mellan search bar och knapp*/
+}
+.search-bar{
+  width: 500px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  outline: none;               /* ingen ram vid klick */
+  transition: 0.2s ease-in-out;
+  background-color: #fdfdfd;   /* lätt vit bakgrund */
+  cursor: text;                /* visar att man kan skriva */
 
+}
+
+.search-bar:hover {
+  background-color: #f2f2f2;  /* blir lite ljusare vid hover */
+  border-color: #dcdcdc;      /* behåller samma border som standard */
+}
+.search-bar:focus {
+  border-color: #ffffff;
+}
+.search-bar.icon {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg');
+  background-size: 18px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  padding-left: 50px; /* space för ikon */
+}
+
+.search-button {
+  border-radius: 10px;
+  border: none;
+  width: 70px;
+  background-color: #f2f2f2;
+  transition: 0.2s ease;
+}
+.search-button:hover {
+  background-color: #e8e8e8;
+  cursor: pointer;
+}
 
 
 
