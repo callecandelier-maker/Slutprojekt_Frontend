@@ -4,8 +4,14 @@ body {
   text-align: center;
 }
 .site-header {
-  background-color: #2b2b2b;
+
   height: 50px;
+  display: flex;
+  justify-content: flex-end; /* flyttar allt till höger */
+  align-items: center;
+  padding: 10px 20px;
+  /*background-color: #333;*/
+
 }
 
 .h1-txt {
@@ -19,12 +25,16 @@ body {
   justify-content: center;
   gap: 20px;   /* Avstånd mellan bilderna */
   margin-top: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .image-block {
   position: relative;
-  width: 180px;
-  height: 180px;
-  margin: 20px;
+ /* width: 180px;
+  height: 180px;*/
+  width: 240px;               /* ny bredd */
+  height: calc(240px * 9 / 16); /* höjd som ger 16:9 */
+ /* margin: 20px;*/
   cursor: pointer;
 }
 .image-block p {
