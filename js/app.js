@@ -2,7 +2,10 @@
 // Hämta alla image-blocks i html
 const blocks = document.querySelectorAll('.image-block');
 
-// variant på clearActiveBlocks funktionen
+
+
+// clearActiveBlocks funktionen som vi kallar på i for-lopen
+// för som kollar av aktivitet för click image blocks
 
 function clearActiveBlocks(activeBlock) {
 
@@ -44,6 +47,15 @@ for (let block of blocks) {
   } );
 }
 
+// functionalitet för hamburgermaneyn
+
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const menuList = document.getElementById('menu-list');
+
+hamburgerMenu.addEventListener('click', function() {
+  menuList.classList.toggle('hidden'); // togglar visning
+  console.log(hamburgerMenu, menuList);
+});
 
 
 

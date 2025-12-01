@@ -13,12 +13,63 @@ body {
   /*background-color: #333;*/
 
 }
+.material-icons{
+  cursor: pointer;
+}
+/*  Test hamburgermenu */
+.site-header {
+  height: 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.material-icons {
+  cursor: pointer;
+}
+
+/* Menyn från början dold */
+#menu-list {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  background-color: #f2f2f2;
+  position: absolute;
+  top: 50px; /* under headern */
+  right: 20px; /* vid hamburgermenyn */
+  display: none; /* viktig */
+  z-index: 20;
+}
+
+#menu-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* Hover-effekt på listobjekt */
+#menu-list li:hover {
+  background-color: #e0e0e0;
+}
+
+/* Klass som JS togglear */
+.hidden {
+  display: none;
+}
+
+/*fram tills hit*/
+
+
 
 .h1-txt {
   font-family: inter, sans-serif;
   font-weight: bold;
   margin-top: 50px;
+  margin-bottom: 10px;
   font-size: 100px;
+
 }
 .main-image-container{
   display: flex;
@@ -90,6 +141,7 @@ body {
   justify-content: center;
   margin-top: 40px;
   gap: 5px;   /* ← Avståndet mellan search bar och knapp*/
+  margin-bottom: 100px;
 }
 .search-bar{
   width: 500px;

@@ -27,9 +27,16 @@
 <body>
 
 <header class="site-header">
-  <span class="material-icons">menu</span>
+  <span id="hamburger-menu" class="material-icons">menu</span>
 </header>
 
+<!--Meny som ska visas och gömmas-->
+<ul id="menu-list" class="hidden">
+  <li>>Home</li>
+  <li>About</li>
+  <li>Contact</li>
+  <li>My Page</li>
+</ul>
 
 <h1 class="h1-txt">The Art Browser</h1>
 
@@ -38,16 +45,19 @@
   <button class="search-button">Search</button>
 </div>
 
+<!--
 <div>
   <p>Filter by art period:</p>
 </div>
-
+-->
 <div class="main-image-container">
 
   <div class="image-block" data-period="Renaissance">
     <div class="image-wrapper" style="background-image: url('img/nedladdning.jpg');"></div>
     <p>Renaissance</p>
   </div>
+
+
 
   <div class="image-block" data-period="Romantic">
     <div class="image-wrapper" style="background-image: url('img/images.webp');"></div>
