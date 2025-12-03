@@ -64,6 +64,79 @@ hamburgerMenu.addEventListener('click', function() {
 });
 
 
+//funktionalitet för search
+
+const btn = document.getElementById('search-button');
+btn.addEventListener('click', fetchArt);
+
+async function fetchArt() {
+  const input = document.getElementById('search-bar').value.trim();
+  if (!input) return;
+
+  //console.log("Sökterm:", input);
+
+  try {
+    // 1. Sök efter artworks i public domain med fält image_id
+    const response = await fetch(
+      `https://api.artic.edu/api/v1/artworks/search`
+      + `?q=${encodeURIComponent(input)}`
+      + `&query[term][is_public_domain]=true`
+      + `&fields=id,title,artist_title,image_id`
+      + `&limit=50`
+    );
+
+    const data = await response.json();
+    //console.log("Returned artworks:", data.data.length);
+
+    const resultsContainer = document.getElementById('art-results');
+    resultsContainer.innerHTML = '';
+
+    // 2. Filtrera bort de utan bild
+    const artworksWithImages = data.data.filter(function(art) {
+      return art.image_id;
+    });
+
+    //console.log("With image_id:", artworksWithImages.length);
+
+    if (artworksWithImages.length === 0) {
+      alert("No images available for this search");
+      return;
+    }
+
+    // 3. Visa alla (eller t.ex. max 10) verk med bilder
+
+    const artworksToShow = artworksWithImages.slice(0, 10);
+
+    for (const art of artworksToShow) {
+
+      const imgUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
+      const artist = art.artist_title || "Unknown artist";
+      const title = art.title || "Untitled";
+
+      const artBlock = document.createElement('div');
+      artBlock.classList.add('art-result-block');
+
+      const img = document.createElement('img');
+      img.src = imgUrl;
+
+      const p = document.createElement('p');
+      p.textContent = `${title} — ${artist}`;
+
+      artBlock.appendChild(img);
+      artBlock.appendChild(p);
+      resultsContainer.appendChild(artBlock);
+    }
+
+
+  } catch (error) {
+    console.error("Error fetching artworks:", error);
+    alert("Error fetching image data");
+  }
+}
+
+
+
+
 
 
 // Ett smidigare och kortare sätt att göra toggle funktionalitet med metoden toggle (DOM)
