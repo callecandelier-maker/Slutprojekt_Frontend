@@ -32,6 +32,7 @@ for (let block of blocks) {
   //lägg till en eventListener på varje block
   block.addEventListener('click', function(){
 
+
     let isActive = false;
     if(block.classList.contains('active')) {
       //om blocket är activt, ta bort active
@@ -46,6 +47,8 @@ for (let block of blocks) {
 
   } );
 }
+
+
 
 // functionalitet för hamburgermaneyn
 
@@ -85,27 +88,42 @@ async function fetchArt() {
       + `&limit=50`
     );
 
-    const data = await response.json();
-    //console.log("Returned artworks:", data.data.length);
+    const apiResponse = await response.json();
+    //console.log("Returned artworks:", apiResponse.data.length);
 
     const resultsContainer = document.getElementById('art-results');
     resultsContainer.innerHTML = '';
 
-    // 2. Filtrera bort de utan bild
-    const artworksWithImages = data.data.filter(function(art) {
+    // 2. Filtrera bort artworks utan bild
+    // 'art' är varje enskilt element i apiResponse.data som vi loopar igenom
+    // Funktionen returnerar true om 'art' har en image_id, annars false
+    // Endast de element som returnerar true hamnar i den nya listan
+    const artworksWithImages = apiResponse.data.filter(function(art) {
       return art.image_id;
     });
 
     //console.log("With image_id:", artworksWithImages.length);
 
+    //
     if (artworksWithImages.length === 0) {
       alert("No images available for this search");
       return;
     }
 
+
+
     // 3. Visa alla (eller t.ex. max 10) verk med bilder
 
     const artworksToShow = artworksWithImages.slice(0, 10);
+
+    const resultContainer = document.getElementById('search-result-container');
+    resultContainer.innerHTML = ''; // rensa tidigare resultat
+
+    // Lägg till en text som visar antal träffar
+    const resultText = document.createElement('p');
+
+    resultContainer.textContent = `Your search resulted in ${artworksToShow.length} hits`;
+
 
     for (const art of artworksToShow) {
 
@@ -135,89 +153,11 @@ async function fetchArt() {
 }
 
 
-
-
-
-
-// Ett smidigare och kortare sätt att göra toggle funktionalitet med metoden toggle (DOM)
-/*for (let block of blocks) {
-  // Lägg till en click-event på varje block
-  block.addEventListener('click', function() {
-
-    // Toggle 'active' klassen på blocket och spara om det är aktivt
-    const isActive = block.classList.toggle('active');
-
-    // Ta bort 'active' från alla andra block
-    clearActiveBlocks(block);
-
-    // Här kan du lägga till annan logik, t.ex. hämta data från API
-    // if (isActive) { fetchArtByPeriod(block.dataset.period); }
-  });
-}
-*/
-
-// Notes: Api Fetch etc...
-// const respone = await fetch('link to api');
-
-// sätt api länken till en const variabel
-//cont url = 'api länk';
-/*
-async function getData(){
-  const response = await fetch(url);
-  //kalla på method json, konverterar info till json
-  // använd await för att json är också en async operation
-   const data = await response.jason()
-
-  console.log(response);
-}
-
-//kalla på funktionen
- getData();
-
-*/
+// test filter
 
 
 
 
 
-
-
-
-
-
-
-
-/*
-// Lägg till click-event på varje block
-blocks.forEach(block => {
-  block.addEventListener('click', () => {
-
-    // Kolla om blocket redan är aktivt
-    let isActive = false;
-    if (block.classList.contains('active')) {
-      // Om blocket är aktivt, ta bort active
-      block.classList.remove('active');
-      isActive = false;
-    } else {
-      // Om blocket inte är aktivt, lägg till active
-      block.classList.add('active');
-      isActive = true;
-    }
-
-    // Rensa active från alla andra block
-    clearActiveBlocks(block);
-
-    // Här kan du lägga till logik för API-anrop
-    if (isActive) {
-      console.log("Block aktiverat: " + block.dataset.period);
-      // fetchArtByPeriod(block.dataset.period);
-    } else {
-      console.log("Block avaktiverat: " + block.dataset.period);
-      // document.getElementById('art-results').innerHTML = "";
-    }
-
-  });
-});
-*/
 
 

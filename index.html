@@ -20,6 +20,8 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#fafafa">
 </head>
@@ -44,19 +46,19 @@
   <input id="search-bar" class="icon" type="text" placeholder="search by Artist...">
   <button id="search-button">Search</button>
 </div>
+
 <!--
 <div>
   <p>Filter by art period:</p>
 </div>
 -->
+
 <div class="main-image-container">
 
   <div class="image-block" data-period="Renaissance">
     <div class="image-wrapper" style="background-image: url('img/nedladdning.jpg');"></div>
     <p>Renaissance</p>
   </div>
-
-
 
   <div class="image-block" data-period="Romantic">
     <div class="image-wrapper" style="background-image: url('img/images.webp');"></div>
@@ -83,22 +85,13 @@
     <p>Futurism</p>
   </div>
 
-
-
 </div>
+<div id="search-result-container"></div>
+<!--<h2>Filtered Artworks:</h2>-->
 
-
-
-
-
-<h2>Filtered Artworks:</h2>
 <div id="art-results" class="art-results-container">
   <!-- JS kommer lägga till konstverken här -->
 </div>
-
-
-
-
 
   <script src="js/app.js"></script>
 
