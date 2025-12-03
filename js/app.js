@@ -53,7 +53,13 @@ const hamburgerMenu = document.getElementById('hamburger-menu');
 const menuList = document.getElementById('menu-list');
 
 hamburgerMenu.addEventListener('click', function() {
-  menuList.classList.toggle('hidden'); // togglar visning
+
+  if(menuList.classList.contains('hidden')) {
+    menuList.classList.remove('hidden');
+  }else{
+    menuList.classList.add('hidden');
+  }
+  //menuList.classList.toggle('hidden'); // togglar visning
   console.log(hamburgerMenu, menuList);
 });
 
@@ -77,8 +83,25 @@ hamburgerMenu.addEventListener('click', function() {
 }
 */
 
+// Notes: Api Fetch etc...
+// const respone = await fetch('link to api');
 
+// sätt api länken till en const variabel
+//cont url = 'api länk';
+/*
+async function getData(){
+  const response = await fetch(url);
+  //kalla på method json, konverterar info till json
+  // använd await för att json är också en async operation
+   const data = await response.jason()
 
+  console.log(response);
+}
+
+//kalla på funktionen
+ getData();
+
+*/
 
 
 
