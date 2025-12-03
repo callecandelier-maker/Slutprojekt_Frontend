@@ -103,9 +103,10 @@ async function fetchArt() {
     });
 
     //console.log("With image_id:", artworksWithImages.length);
-
+    const resultContainer = document.getElementById('search-result-container');
     //
     if (artworksWithImages.length === 0) {
+      resultContainer.innerHTML = '';  // rensa texten
       alert("No images available for this search");
       return;
     }
@@ -116,8 +117,11 @@ async function fetchArt() {
 
     const artworksToShow = artworksWithImages.slice(0, 10);
 
-    const resultContainer = document.getElementById('search-result-container');
+
+
     resultContainer.innerHTML = ''; // rensa tidigare resultat
+
+
 
     // Lägg till en text som visar antal träffar
     const resultText = document.createElement('p');
