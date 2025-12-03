@@ -94,6 +94,7 @@ async function fetchArt() {
     const resultsContainer = document.getElementById('art-results');
     resultsContainer.innerHTML = '';
 
+
     // 2. Filtrera bort artworks utan bild
     // 'art' är varje enskilt element i apiResponse.data som vi loopar igenom
     // Funktionen returnerar true om 'art' har en image_id, annars false
