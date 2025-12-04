@@ -159,6 +159,30 @@ async function fetchArt() {
 
 
 // test filter
+// --- FILTER BY CLICKING IMAGE BLOCKS --- //
+
+const periodBlocks = document.querySelectorAll('.image-block');
+
+for (const block of periodBlocks) {
+  block.addEventListener('click', function () {
+
+    // 1. Hämta perioden från HTML
+    const period = block.dataset.period;
+
+    // 2. Fyll search-fältet med perioden
+    const searchBar = document.getElementById('search-bar');
+    searchBar.value = period;
+
+    // 3. Starta sökningen direkt
+    fetchArt();
+
+    // 4. Markera valt block
+    clearActiveBlocks(block);
+
+  });
+}
+
+
 
 
 
