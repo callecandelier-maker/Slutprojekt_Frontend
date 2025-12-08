@@ -32,7 +32,7 @@ function setupFilterBlocks(blockList) {
   for (const block of blockList) {
     block.addEventListener('click', function () {
 
-      const filter = block.dataset.period;  // eller annan kategori
+      const filter = block.dataset.period;  // eller annan kategori som vi har skapat i html
 
       if(block.classList.contains('active')) {
         block.classList.remove('active');
@@ -49,33 +49,16 @@ function setupFilterBlocks(blockList) {
 
 setupFilterBlocks(blocks);
 
-
-
-
-
-// functionalitet för hamburgermaneyn
-
-const hamburgerMenu = document.getElementById('hamburger-menu');
-const menuList = document.getElementById('menu-list');
-
-hamburgerMenu.addEventListener('click', function() {
-
-  if(menuList.classList.contains('hidden')) {
-    menuList.classList.remove('hidden');
-  }else{
-    menuList.classList.add('hidden');
-  }
-  //menuList.classList.toggle('hidden'); // togglar visning
-  console.log(hamburgerMenu, menuList);
-});
-
-
-
-// Här testar vi att skapa en mer ren kod-struktur för att hämta och söka i api:er
-
 //Hämtar och skickar tillbaka information från API:t
 
+async function filterArt(filterTerm){
 
+  if (!filterTerm) return;
+
+  // Hämta konstverken baserat på filter
+  const artworks = await fetchArt(filterTerm);  // samma fetchArt, men skickar filter internt
+  renderArtWorks(artworks);
+}
 
 async function fetchArt(searchTerm){
  // reternerar en tom lista om det inte finns något argument
@@ -193,17 +176,25 @@ async function searchArt(inputOveride = null){
  setupSearchButton();
 
 
-async function filterArt(filterTerm){
-
-  if (!filterTerm) return;
-
-  // Hämta konstverken baserat på filter
-  const artworks = await fetchArt(filterTerm);  // samma fetchArt, men skickar filter internt
-  renderArtWorks(artworks);
-}
 
 
 
+
+// functionalitet för hamburgermaneyn
+
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const menuList = document.getElementById('menu-list');
+
+hamburgerMenu.addEventListener('click', function() {
+
+  if(menuList.classList.contains('hidden')) {
+    menuList.classList.remove('hidden');
+  }else{
+    menuList.classList.add('hidden');
+  }
+  //menuList.classList.toggle('hidden'); // togglar visning
+  console.log(hamburgerMenu, menuList);
+});
 
 
 
