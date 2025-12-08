@@ -48,6 +48,7 @@ function setupFilterBlocks(blockList) {
 }
 
 setupFilterBlocks(blocks);
+removePlaceholderText();
 
 //Hämtar och skickar tillbaka information från API:t
 
@@ -172,9 +173,22 @@ async function searchArt(inputOveride = null){
    const searchButton = document.getElementById('search-button')
     searchButton.addEventListener('click', () => searchArt());
  }
-
  setupSearchButton();
 
+
+function removePlaceholderText(){
+  let searchInput = document.getElementById('search-bar');
+  searchInput.addEventListener('focus', function(){
+    this.dataset.placeholderBackup = this.placeholder;
+    this.placeholder = "";
+
+    searchInput.addEventListener('blur', function(){
+      if(this.value === ''){
+        this.placeholder = this.dataset.placeholderBackup || 'Search by Artist....';
+      }
+    })
+  });
+}
 
 
 
