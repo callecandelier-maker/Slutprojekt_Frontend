@@ -2,15 +2,13 @@
 // Hämta alla image-blocks i html
 const blocks = document.querySelectorAll('.image-block');
 
-
-
 // clearActiveBlocks funktionen som vi kallar på i for-lopen
 // för som kollar av aktivitet för click image blocks
 
 function clearActiveBlocks(activeBlock) {
 
   // En for loop som Loopar igenom alla block i samlingen.
-  //( )Note to self man skriver of blocks i javascript)
+  //( )Note to sel: man skriver for-loop med "of" i javascript)
   for (const block of blocks) {
 
     // Kontrollera att detta block inte är det block som precis klickades.
@@ -33,7 +31,7 @@ for (let block of blocks) {
   block.addEventListener('click', function(){
 
 
-    let isActive = false;
+    //let isActive = false;
     if(block.classList.contains('active')) {
       //om blocket är activt, ta bort active
       block.classList.remove('active');
@@ -41,7 +39,7 @@ for (let block of blocks) {
     else{
       //om blocket inte är aktivt lägg till active
       block.classList.add('active');
-      isActive = true;
+      //isActive = true;
     }
     clearActiveBlocks(block);
 
@@ -67,13 +65,178 @@ hamburgerMenu.addEventListener('click', function() {
 });
 
 
-//funktionalitet för search
 
+// Här testar vi att skapa en mer ren kod-struktur för att hämta och söka i api:er
+
+//Hämtar och skickar tillbaka information från API:t
+async function fetchArt(searchTerm){
+ // reternerar en tom lista om det inte finns något argument
+
+  if(!searchTerm){return [];}
+  try{
+    //Hämtar och väntar på svar
+    const response = await fetch(
+      `https://api.artic.edu/api/v1/artworks/search`
+      + `?q=${encodeURIComponent(searchTerm)}` // Sökordet matas in
+      + `&query[term][is_public_domain]=true`
+      + `&fields=id,title,artist_title,image_id`
+      + `&limit=50`);
+
+    // Svaret tillbaka från api converterad till en json fil
+    const apiResponse = await response.json();
+
+    // filtrera bort verk utan bild
+    const artworkWithImages = apiResponse.data.filter(art => art.image_id);
+
+    // returnerar ett begränsat antalal bilder
+    return artworkWithImages.slice(0, 10);
+
+  }
+  // om vi inte får tillbaka någon data
+  catch(error){
+    console.error("Error fetching artworks:", error);
+    alert("Error fetching image data");
+    return [];
+  }
+}
+
+//Separat funktion för hantering av resultat
+function renderArtWorks(artworks) {
+
+  // Hämta huvud-divarna där sökresultatet ska visas
+  const imageResultContainer = document.getElementById('art-results');
+  const textResultContainer = document.getElementById('search-result-container');
+
+  // Töm tidigare sökresultat i båda containrarna
+  imageResultContainer.innerHTML = '';
+  textResultContainer.innerHTML = '';
+
+  // Om inga resultat hittas – visa meddelande och avbryt funktionen
+  if(artworks.length === 0){
+    alert("No artworks found.");
+    textResultContainer.textContent = 'No images available for this search!';
+    return;
+  }
+  // Visa hur många träffar sökningen gav
+  textResultContainer.textContent = `Your search resulted in ${artworks.length} hits`;
+
+  // Loopa igenom alla konstverk och skapa HTML-element för varje
+  for (let art of artworks) {
+
+    //variabler som vi tilldelar:
+    // Bildens URL (från API:ets IIIF-system)
+    const imgUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
+
+    // Artistens namn eller fallback-värde
+    const artist = art.artist_title || 'Unknown Artist';
+
+    // Titel på verket eller fallback-värde
+    const title = art.title || 'Untitled';
+
+    // Skapa en container (div) för varje konstverksblock
+    const artBlock = document.createElement('div');
+    // Tilldela CSS-klassen som styr layout och utseende
+    artBlock.classList.add('art-result-block');
+
+    // Skapa bild-element och tilldela bildens URL
+    const img = document.createElement('img');
+    // tilldela bilder från api:t
+    img.src = imgUrl;
+
+    // Skapa text-element som beskriver titel och artist
+    const p = document.createElement('p');
+    p.innerText = `${title} - ${artist}`;
+
+    // Lägg in bild och text i konstverksblocket
+    artBlock.appendChild(img);
+    artBlock.appendChild(p);
+
+    // Lägg till konstverksblocket i bildcontainern
+    imageResultContainer.appendChild(artBlock);
+
+  }
+}
+
+// Funktion för att söka efter konstverk
+async function searchArt(inputOveride){
+
+  // Hämta sökfältet från DOM
+  const inputField = document.getElementById('search-bar');
+
+  // Hämta söktexten: använd inputOverride om det finns, annars använd värdet i sökfältet
+  // trim() används för att ta bort mellanslag i början/slutet
+  const searchValue = inputOveride || inputField.value.trim();
+
+  // Avbryt funktionen om söktexten är tom
+  if(!searchValue){return}
+
+  // Hämta konstverken från API baserat på söktexten
+  const artWorks = await fetchArt(searchValue);
+
+  // Visa resultaten genom att rendera dem på sidan
+  renderArtWorks(artWorks);
+}
+
+document.getElementById('search-button')
+  .addEventListener('click', () => searchArt());
+
+
+
+
+async function filterArt(filterTerm){
+
+  if (!filterTerm) return;
+
+  // Hämta konstverken baserat på filter
+  const artworks = await fetchArt(filterTerm);  // samma fetchArt, men skickar filter internt
+  renderArtWorks(artworks);
+}
+
+for (const block of blocks) {
+  block.addEventListener('click', function () {
+    const filter = block.dataset.period;  // eller annan kategori
+
+    // Kör filter utan att ändra search-bar
+    filterArt(filter);
+
+    // Markera blocket som aktivt
+    clearActiveBlocks(block);
+
+  });
+
+}
+
+
+/*
+for (const block of blocks) {
+  block.addEventListener('click', function () {
+
+    const period = block.dataset.period;
+
+    // autopopulate searchbar
+    document.getElementById('search-bar').value = period;
+
+    // Starta sökning med period som parameter
+    searchArt(period);
+
+    // Markera valt block
+    clearActiveBlocks(block);
+  });
+}
+
+/*
+
+//funktionalitet för search:
+
+//Hämtar search knappen
 const btn = document.getElementById('search-button');
+//och lägger till en eventlistener.
 btn.addEventListener('click', fetchArt);
 
-async function fetchArt() {
-  const input = document.getElementById('search-bar').value.trim();
+
+
+async function fetchArt(artInput) {
+ const input = document.getElementById('search-bar').value.trim();
   if (!input) return;
 
   //console.log("Sökterm:", input);
@@ -102,6 +265,8 @@ async function fetchArt() {
     const artworksWithImages = apiResponse.data.filter(function(art) {
       return art.image_id;
     });
+
+
 
     //console.log("With image_id:", artworksWithImages.length);
     const resultContainer = document.getElementById('search-result-container');
@@ -185,7 +350,7 @@ for (const block of periodBlocks) {
 
 
 }
-
+*/
 
 
 
