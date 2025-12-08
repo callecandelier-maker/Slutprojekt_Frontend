@@ -2,6 +2,7 @@
 // Hämta alla image-blocks i html
 const blocks = document.querySelectorAll('.image-block');
 
+
 // clearActiveBlocks funktionen som vi kallar på i for-lopen
 // för som kollar av aktivitet för click image blocks
 
@@ -25,26 +26,30 @@ function clearActiveBlocks(activeBlock) {
   }
 }
 
-// En ytterligare for-loop där vi skapar funktionalitet för hur vi aktiverar blocken
-for (let block of blocks) {
-  //lägg till en eventListener på varje block
-  block.addEventListener('click', function(){
+// Funktion som kopplar filterArt och clearActiveBlocks till en lista av block
+function setupFilterBlocks(blockList) {
 
+  for (const block of blockList) {
+    block.addEventListener('click', function () {
 
-    //let isActive = false;
-    if(block.classList.contains('active')) {
-      //om blocket är activt, ta bort active
-      block.classList.remove('active');
-    }
-    else{
-      //om blocket inte är aktivt lägg till active
+      const filter = block.dataset.period;  // eller annan kategori
+
+      if(block.classList.contains('active')) {
+        block.classList.remove('active');
+        return;
+      }
+      clearActiveBlocks(block);
+
       block.classList.add('active');
-      //isActive = true;
-    }
-    clearActiveBlocks(block);
 
-  } );
+      filterArt(filter);
+    });
+  }
 }
+
+setupFilterBlocks(blocks);
+
+
 
 
 
@@ -69,6 +74,9 @@ hamburgerMenu.addEventListener('click', function() {
 // Här testar vi att skapa en mer ren kod-struktur för att hämta och söka i api:er
 
 //Hämtar och skickar tillbaka information från API:t
+
+
+
 async function fetchArt(searchTerm){
  // reternerar en tom lista om det inte finns något argument
 
@@ -158,7 +166,7 @@ function renderArtWorks(artworks) {
 }
 
 // Funktion för att söka efter konstverk
-async function searchArt(inputOveride){
+async function searchArt(inputOveride = null){
 
   // Hämta sökfältet från DOM
   const inputField = document.getElementById('search-bar');
@@ -177,10 +185,12 @@ async function searchArt(inputOveride){
   renderArtWorks(artWorks);
 }
 
-document.getElementById('search-button')
-  .addEventListener('click', () => searchArt());
+ function setupSearchButton(){
+   const searchButton = document.getElementById('search-button')
+    searchButton.addEventListener('click', () => searchArt());
+ }
 
-
+ setupSearchButton();
 
 
 async function filterArt(filterTerm){
@@ -192,6 +202,12 @@ async function filterArt(filterTerm){
   renderArtWorks(artworks);
 }
 
+
+
+
+
+
+/*
 for (const block of blocks) {
   block.addEventListener('click', function () {
     const filter = block.dataset.period;  // eller annan kategori
@@ -205,7 +221,7 @@ for (const block of blocks) {
   });
 
 }
-
+*/
 
 /*
 for (const block of blocks) {
