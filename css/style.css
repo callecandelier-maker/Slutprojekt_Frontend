@@ -85,7 +85,7 @@ body {
   /*margin: 0 4px;   /* ger 20px totalt mellan varje block */
  /* width: 180px;
   height: 180px;*/
-  width: 237px;               /* ny bredd */
+  width: 200px;               /* ny bredd */
   height: calc(240px * 9 / 16); /* höjd som ger 16:9 */
  /* margin: 20px;*/
   cursor: pointer;

@@ -174,12 +174,16 @@ for (const block of periodBlocks) {
     searchBar.value = period;
 
     // 3. Starta sökningen direkt
-    fetchArt();
+    fetchArt(); // gör om och skicka in period som argument
+    // flytta resultat utanför fetchart.
 
     // 4. Markera valt block
     clearActiveBlocks(block);
 
+
   });
+
+
 }
 
 
