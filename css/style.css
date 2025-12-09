@@ -40,7 +40,7 @@ body {
   position: absolute;
   top: 50px; /* under headern */
   right: 20px; /* vid hamburgermenyn */
-  display: none; /* viktig */
+  /*display: none; /* viktig */
   z-index: 20;
 }
 
@@ -80,17 +80,28 @@ body {
  /* margin-left: 20px;
   margin-right: 20px;*/
 }
+
+/*testa nya mått på filterbilderna*/
+
 .image-block {
- position: relative;
+  position: relative;
+  width: 200px;        /* eller % om du vill göra det mer responsivt */
+  aspect-ratio: 16/9;  /* ersätter din calc() */
+  cursor: pointer;
+}
+
+/*.image-block {
+ position: relative;*/
 
   /*margin: 0 4px;   /* ger 20px totalt mellan varje block */
  /* width: 180px;
-  height: 180px;*/
-  width: 200px;               /* ny bredd */
+  height: 180px;
+  width: 200px;
   height: calc(240px * 9 / 16); /* höjd som ger 16:9 */
- /* margin: 20px;*/
+ /* margin: 20px;
   cursor: pointer;
-}
+}*/
+
 .image-block p {
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
@@ -230,5 +241,6 @@ h2{
   margin-top: 40px;
   margin-bottom: 10px;
   font-size: 14px;
-  color: grey;
+  color: #7a7a7a;
+  padding-bottom: 10px;
 }

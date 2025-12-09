@@ -5,7 +5,6 @@ const blocks = document.querySelectorAll('.image-block');
 
 // clearActiveBlocks funktionen som vi kallar på i for-lopen
 // för som kollar av aktivitet för click image blocks
-
 function clearActiveBlocks(activeBlock) {
 
   // En for loop som Loopar igenom alla block i samlingen.
@@ -79,9 +78,10 @@ async function fetchArt(searchTerm){
 
     // filtrera bort verk utan bild
     const artworkWithImages = apiResponse.data.filter(art => art.image_id);
+    console.log(artworkWithImages);
 
     // returnerar ett begränsat antalal bilder
-    return artworkWithImages.slice(0, 10);
+    return artworkWithImages.slice(0, 20);
 
   }
   // om vi inte får tillbaka någon data
@@ -110,7 +110,7 @@ function renderArtWorks(artworks) {
     return;
   }
   // Visa hur många träffar sökningen gav
-  textResultContainer.textContent = `Your search resulted in ${artworks.length} hits`;
+  textResultContainer.textContent = `Your search resulted in ${artworks.length} hits:`;
 
   // Loopa igenom alla konstverk och skapa HTML-element för varje
   for (let art of artworks) {
@@ -189,9 +189,6 @@ function removePlaceholderText(){
     })
   });
 }
-
-
-
 
 
 // functionalitet för hamburgermaneyn
