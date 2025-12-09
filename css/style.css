@@ -85,20 +85,22 @@ body {
 
 .image-block {
   position: relative;
-  width: 200px;        /* eller % om du vill göra det mer responsivt */
-  aspect-ratio: 16/9;  /* ersätter din calc() */
+  width: 236px;        /* eller % om du vill göra det mer responsivt*/
+  /*aspect-ratio: 16/9;   ersätter din calc() */
+  height: calc(236px * 9 / 16); /* höjd som ger 16:9 */
+
   cursor: pointer;
 }
+/*
+.image-block {
+ position: relative;
 
-/*.image-block {
- position: relative;*/
+  /*margin: 0 4px;   /* ger 20px totalt mellan varje block
 
-  /*margin: 0 4px;   /* ger 20px totalt mellan varje block */
- /* width: 180px;
   height: 180px;
   width: 200px;
-  height: calc(240px * 9 / 16); /* höjd som ger 16:9 */
- /* margin: 20px;
+  height: calc(240px * 9 / 16); /* höjd som ger 16:9
+  margin: 20px;
   cursor: pointer;
 }*/
 
