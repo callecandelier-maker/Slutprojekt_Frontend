@@ -8,16 +8,14 @@ const blocks = document.querySelectorAll('.image-block');
 function clearActiveBlocks(activeBlock) {
 
   // En for loop som Loopar igenom alla block i samlingen.
-  //( )Note to sel: man skriver for-loop med "of" i javascript)
+  //( )Note to self: man skriver for-loop med "of" i javascript)
   for (const block of blocks) {
-
     // Kontrollera att detta block inte är det block som precis klickades.
     // (Vi vill inte ta bort 'active' från det block som ska förbli valt.)
     if (block !== activeBlock) {
 
       // Om blocket är markerat som aktivt...
       if (block.classList.contains('active')) {
-
         // ...ta bort 'active' så att blocket avmarkeras.
         block.classList.remove('active');
       }
@@ -25,22 +23,30 @@ function clearActiveBlocks(activeBlock) {
   }
 }
 
-// Funktion som kopplar filterArt och clearActiveBlocks till en lista av block
+// Funktion som kopplar klick-händelser till varje filterblock (Renaissance, Romantic osv... ).
 function setupFilterBlocks(blockList) {
 
+//loopa igenom alla block vi skickar in i funktionen
   for (const block of blockList) {
+
+    //addera en event listener för klick på varje enskilt block
     block.addEventListener('click', function () {
 
-      const filter = block.dataset.period;  // eller annan kategori som vi har skapat i html
+      // Hämta det värde (t.ex. "Romantic") som ligger i blockets data-period-attribut
+      const filter = block.dataset.period;
 
+      // Om blocket redan är aktivt och vi klickar igen → avmarkera det och avsluta funktionen
       if(block.classList.contains('active')) {
         block.classList.remove('active');
-        return;
+        return; // stoppar funktionen så att ingen filtrering körs
       }
+      //om ett annat block var aktivt innan rensa alla "aktive" klasser.
       clearActiveBlocks(block);
 
+      //markera det klickade blocket som aktivt
       block.classList.add('active');
 
+      //kör filtreringen med den valda epoken/kategorin
       filterArt(filter);
     });
   }
@@ -78,10 +84,10 @@ async function fetchArt(searchTerm){
 
     // filtrera bort verk utan bild
     const artworkWithImages = apiResponse.data.filter(art => art.image_id);
-    console.log(artworkWithImages);
+    //console.log(artworkWithImages);
 
     // returnerar ett begränsat antalal bilder
-    return artworkWithImages.slice(0, 20);
+    return artworkWithImages.slice(0, 40);
 
   }
   // om vi inte får tillbaka någon data
@@ -162,7 +168,7 @@ async function searchArt(inputOveride = null){
   // Avbryt funktionen om söktexten är tom
   if(!searchValue){return}
 
-  // Hämta konstverken från API baserat på söktexten
+  // Hämta konstverken från API baserat på söktexten.
   const artWorks = await fetchArt(searchValue);
 
   // Visa resultaten genom att rendera dem på sidan
@@ -204,7 +210,7 @@ hamburgerMenu.addEventListener('click', function() {
     menuList.classList.add('hidden');
   }
   //menuList.classList.toggle('hidden'); // togglar visning
-  console.log(hamburgerMenu, menuList);
+  //console.log(hamburgerMenu, menuList);
 });
 
 
