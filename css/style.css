@@ -3,16 +3,18 @@ body {
  /* font-family: Arial, sans-serif; */
   text-align: center;
 }
+/*
 .site-header {
 
   height: 50px;
   display: flex;
-  justify-content: flex-end; /* flyttar allt till höger */
+  justify-content: flex-end; /* flyttar allt till höger
   align-items: center;
   padding: 10px 20px;
-  /*background-color: #333;*/
+  /*background-color: #333;
 
 }
+*/
 .material-icons{
   cursor: pointer;
 }
@@ -20,6 +22,7 @@ body {
 .site-header {
   height: 50px;
   display: flex;
+  /*justify-content: space-between; om jag vill ändra och ha fler iconer */
   justify-content: flex-end;
   align-items: center;
   padding: 10px 20px;
@@ -42,6 +45,8 @@ body {
   right: 20px; /* vid hamburgermenyn */
   /*display: none; /* viktig */
   z-index: 20;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
 }
 
 #menu-list li {
@@ -257,7 +262,7 @@ h2{
   font-weight: bold;
   margin-top: 40px;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 15px;
   color: #7a7a7a;
   padding-bottom: 10px;
 }
