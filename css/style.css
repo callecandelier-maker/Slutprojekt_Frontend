@@ -72,25 +72,22 @@ body {
   letter-spacing: 0px;
 
 }
-.main-image-container{
-  display: flex;
-  justify-content: center;
-  gap: 20px;   /* Avstånd mellan bilderna */
+.main-image-container {
+  text-align: center;
   margin-top: 40px;
- /* margin-left: 20px;
-  margin-right: 20px;*/
+  margin-bottom: 40px; /* valfritt */
 }
-
-/*testa nya mått på filterbilderna*/
 
 .image-block {
-  position: relative;
-  width: 236px;        /* eller % om du vill göra det mer responsivt*/
-  /*aspect-ratio: 16/9;   ersätter din calc() */
-  height: calc(236px * 9 / 16); /* höjd som ger 16:9 */
-
+  display: inline-block;
+  width: 240px;
+  height: calc(240px * 9 / 16);
+  margin: 10px 10px;   /* ← lägger till vertikalt OCH horisontellt utrymme */
   cursor: pointer;
+  position: relative;
+  vertical-align: middle;
 }
+
 /*
 .image-block {
  position: relative;
