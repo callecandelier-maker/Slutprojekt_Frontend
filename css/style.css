@@ -164,7 +164,8 @@ body {
   border-color: #dcdcdc;      /* behåller samma border som standard */
 }
 #search-bar:focus {
-  border-color: #ffffff;
+  /*border-color: #ffffff;*/
+
 }
 #search-bar.icon {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg');
