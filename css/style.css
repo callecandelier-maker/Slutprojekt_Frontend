@@ -82,6 +82,7 @@ body {
 }
 .image-block {
  position: relative;
+
   /*margin: 0 4px;   /* ger 20px totalt mellan varje block */
  /* width: 180px;
   height: 180px;*/
@@ -92,7 +93,7 @@ body {
 }
 .image-block p {
   font-size: 14px;
-  font-family: roboto thin sans-serif
+  font-family: 'Roboto', sans-serif;
 }
 
 .image-wrapper {
@@ -154,7 +155,7 @@ body {
   transition: 0.2s ease-in-out;
   background-color: #fdfdfd;   /* lätt vit bakgrund */
   cursor: text;                /* visar att man kan skriva */
-  font-family: robot, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 12px;
 
 }
@@ -214,7 +215,7 @@ body {
 
 .art-result-block p {
   margin-top: 8px;
-  font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 12px;
   color: black;
 }
@@ -224,7 +225,7 @@ h2{
 
 #search-result-container {
   text-align: center;
-  font-family: roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
   margin-top: 40px;
   margin-bottom: 10px;
