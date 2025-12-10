@@ -18,6 +18,7 @@ function clearActiveBlocks(activeBlock) {
       if (block.classList.contains('active')) {
         // ...ta bort 'active' så att blocket avmarkeras.
         block.classList.remove('active');
+
       }
     }
   }
@@ -38,6 +39,7 @@ function setupFilterBlocks(blockList) {
       // Om blocket redan är aktivt och vi klickar igen → avmarkera det och avsluta funktionen
       if(block.classList.contains('active')) {
         block.classList.remove('active');
+        clearArtWorks();
         return; // stoppar funktionen så att ingen filtrering körs
       }
       //om ett annat block var aktivt innan rensa alla "aktive" klasser.
@@ -182,9 +184,23 @@ async function searchArt(inputOveride = null){
  function setupSearchButton(){
    const searchButton = document.getElementById('search-button')
     searchButton.addEventListener('click', () => searchArt());
+
+   const searchInput = document.getElementById('search-bar')
+   searchInput.addEventListener('input', function(){
+     if(this.value.trim() === ""){ clearArtWorks()}
+   });
  }
  setupSearchButton();
 
+function clearArtWorks(){
+  const imageResultContainer = document.getElementById('art-results');
+  const textResultContainer = document.getElementById('search-result-container');
+
+  imageResultContainer.innerHTML = '';
+  textResultContainer.innerHTML = '';
+
+  textResultContainer.classList.add('hidden-border');
+}
 
 function removePlaceholderText(){
   let searchInput = document.getElementById('search-bar');
@@ -218,167 +234,6 @@ hamburgerMenu.addEventListener('click', function() {
 });
 
 
-
-/*
-for (const block of blocks) {
-  block.addEventListener('click', function () {
-    const filter = block.dataset.period;  // eller annan kategori
-
-    // Kör filter utan att ändra search-bar
-    filterArt(filter);
-
-    // Markera blocket som aktivt
-    clearActiveBlocks(block);
-
-  });
-
-}
-*/
-
-/*
-for (const block of blocks) {
-  block.addEventListener('click', function () {
-
-    const period = block.dataset.period;
-
-    // autopopulate searchbar
-    document.getElementById('search-bar').value = period;
-
-    // Starta sökning med period som parameter
-    searchArt(period);
-
-    // Markera valt block
-    clearActiveBlocks(block);
-  });
-}
-
-/*
-
-//funktionalitet för search:
-
-//Hämtar search knappen
-const btn = document.getElementById('search-button');
-//och lägger till en eventlistener.
-btn.addEventListener('click', fetchArt);
-
-
-
-async function fetchArt(artInput) {
- const input = document.getElementById('search-bar').value.trim();
-  if (!input) return;
-
-  //console.log("Sökterm:", input);
-
-  try {
-    // 1. Sök efter artworks i public domain med fält image_id
-    const response = await fetch(
-      `https://api.artic.edu/api/v1/artworks/search`
-      + `?q=${encodeURIComponent(input)}`
-      + `&query[term][is_public_domain]=true`
-      + `&fields=id,title,artist_title,image_id`
-      + `&limit=50`
-    );
-
-    const apiResponse = await response.json();
-    //console.log("Returned artworks:", apiResponse.data.length);
-
-    const resultsContainer = document.getElementById('art-results');
-    resultsContainer.innerHTML = '';
-
-
-    // 2. Filtrera bort artworks utan bild
-    // 'art' är varje enskilt element i apiResponse.data som vi loopar igenom
-    // Funktionen returnerar true om 'art' har en image_id, annars false
-    // Endast de element som returnerar true hamnar i den nya listan
-    const artworksWithImages = apiResponse.data.filter(function(art) {
-      return art.image_id;
-    });
-
-
-
-    //console.log("With image_id:", artworksWithImages.length);
-    const resultContainer = document.getElementById('search-result-container');
-    //
-    if (artworksWithImages.length === 0) {
-      resultContainer.innerHTML = '';  // rensa texten
-      alert("No images available for this search");
-      return;
-    }
-
-
-
-    // 3. Visa alla (eller t.ex. max 10) verk med bilder
-
-    const artworksToShow = artworksWithImages.slice(0, 10);
-
-
-
-    resultContainer.innerHTML = ''; // rensa tidigare resultat
-
-
-
-    // Lägg till en text som visar antal träffar
-    const resultText = document.createElement('p');
-
-    resultContainer.textContent = `Your search resulted in ${artworksToShow.length} hits`;
-
-
-    for (const art of artworksToShow) {
-
-      const imgUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
-      const artist = art.artist_title || "Unknown artist";
-      const title = art.title || "Untitled";
-
-      const artBlock = document.createElement('div');
-      artBlock.classList.add('art-result-block');
-
-      const img = document.createElement('img');
-      img.src = imgUrl;
-
-      const p = document.createElement('p');
-      p.textContent = `${title} — ${artist}`;
-
-      artBlock.appendChild(img);
-      artBlock.appendChild(p);
-      resultsContainer.appendChild(artBlock);
-    }
-
-
-  } catch (error) {
-    console.error("Error fetching artworks:", error);
-    alert("Error fetching image data");
-  }
-}
-
-
-// test filter
-// --- FILTER BY CLICKING IMAGE BLOCKS --- //
-
-const periodBlocks = document.querySelectorAll('.image-block');
-
-for (const block of periodBlocks) {
-  block.addEventListener('click', function () {
-
-    // 1. Hämta perioden från HTML
-    const period = block.dataset.period;
-
-    // 2. Fyll search-fältet med perioden
-    const searchBar = document.getElementById('search-bar');
-    searchBar.value = period;
-
-    // 3. Starta sökningen direkt
-    fetchArt(); // gör om och skicka in period som argument
-    // flytta resultat utanför fetchart.
-
-    // 4. Markera valt block
-    clearActiveBlocks(block);
-
-
-  });
-
-
-}
-*/
 
 
 
