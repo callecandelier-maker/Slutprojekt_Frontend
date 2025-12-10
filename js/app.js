@@ -1,22 +1,27 @@
 
-// Hämta alla image-blocks i html
+
+// -------------------------------------------------------------------------
+// HÄMTAR ALLA FILTERBLOCK (bild-blocken: Renaissance, Romantic osv.)
+// Dessa används för att styra filtreringen av konst.
+// --------------------------------------------------------------------------
 const blocks = document.querySelectorAll('.image-block');
 
 
-// clearActiveBlocks funktionen som vi kallar på i for-lopen
-// för som kollar av aktivitet för click image blocks
+// --------------------------------------------------------------------------
+// clearActiveBlocks()
+// Avmarkerar ALLA aktiva filter-block förutom den som just klickats.
+// Används när man klickar på ett nytt filterblock
+// --------------------------------------------------------------------------
 function clearActiveBlocks(activeBlock) {
 
-  // En for loop som Loopar igenom alla block i samlingen.
-  //( )Note to self: man skriver for-loop med "of" i javascript)
+  // Loopar igenom alla filter-block
   for (const block of blocks) {
-    // Kontrollera att detta block inte är det block som precis klickades.
-    // (Vi vill inte ta bort 'active' från det block som ska förbli valt.)
+
+    // Hoppa över blocket som klickades ("activeBlock")
     if (block !== activeBlock) {
 
-      // Om blocket är markerat som aktivt...
+      // Om ett block är aktivt ska det avmarkeras
       if (block.classList.contains('active')) {
-        // ...ta bort 'active' så att blocket avmarkeras.
         block.classList.remove('active');
 
       }
@@ -24,41 +29,55 @@ function clearActiveBlocks(activeBlock) {
   }
 }
 
-// Funktion som kopplar klick-händelser till varje filterblock (Renaissance, Romantic osv... ).
+
+// --------------------------------------------------------------------------
+// setupFilterblocks()
+// Kopplar klickhändelser till varje filterblock.
+// Flöde:
+// 1. Användaren klickar på ett block
+// 2. Om blocket är aktivt; avmarkera + rensa resultat
+// 3. Om blocket INTE är aktivt; rensa tidigare block + markera det nya
+// 4. Kör filterArt() för att hämta konst med vald kategori
+// --------------------------------------------------------------------------
 function setupFilterBlocks(blockList) {
 
-//loopa igenom alla block vi skickar in i funktionen
   for (const block of blockList) {
 
-    //addera en event listener för klick på varje enskilt block
     block.addEventListener('click', function () {
 
-      // Hämta det värde (t.ex. "Romantic") som ligger i blockets data-period-attribut
+      //  Läs ut filter-namnet från data-period-atributet
       const filter = block.dataset.period;
 
-      // Om blocket redan är aktivt och vi klickar igen → avmarkera det och avsluta funktionen
+      // FALL 1: Blocket var aktivt och klickades igen; avmarkera och rensa
       if(block.classList.contains('active')) {
         block.classList.remove('active');
-        clearArtWorks();
-        return; // stoppar funktionen så att ingen filtrering körs
+        clearArtWorks(); // Rensa resultat och text
+        return; // stoppar - vi ska inte göra en ny API-sökning
       }
-      //om ett annat block var aktivt innan rensa alla "aktive" klasser.
+
+      // FALL 2: Ett annat block var aktivt; avmarkera alla andra
       clearActiveBlocks(block);
 
-      //markera det klickade blocket som aktivt
+      // arkera det klickade blocket som aktivt
       block.classList.add('active');
 
-      //kör filtreringen med den valda epoken/kategorin
+      // Kör filtereringen (API-anrop + rendera)
       filterArt(filter);
     });
   }
 }
-
+// Starta filterblocksfunktionens kopplingar
 setupFilterBlocks(blocks);
+
+// Tar bort placeholder vid fokus
 removePlaceholderText();
 
-//Hämtar och skickar tillbaka information från API:t
 
+
+// --------------------------------------------------------------------------
+// filterArt()
+// Fungerar som wrapper: tar emot filterterm; hämtar API-data, renderar
+// --------------------------------------------------------------------------
 async function filterArt(filterTerm){
 
   if (!filterTerm) return;
@@ -68,10 +87,19 @@ async function filterArt(filterTerm){
   renderArtWorks(artworks);
 }
 
+
+
+// --------------------------------------------------------------------------
+// fetchArt()
+// Hämtar AIIC-konstverk baserat på sökterm
+// Returnerar en lista med max 40 konstverk med bild
+// --------------------------------------------------------------------------
 async function fetchArt(searchTerm){
  // reternerar en tom lista om det inte finns något argument
 
+  // Om söktermen är tom eller undefined: avbryt hämtningen och returnera en tom lista
   if(!searchTerm){return [];}
+
   try{
     //Hämtar och väntar på svar
     const response = await fetch(
@@ -84,15 +112,14 @@ async function fetchArt(searchTerm){
     // Svaret tillbaka från api converterad till en json fil
     const apiResponse = await response.json();
 
-    // filtrera bort verk utan bild
+    // Filtrera bort verk utan bild
     const artworkWithImages = apiResponse.data.filter(art => art.image_id);
-    //console.log(artworkWithImages);
 
-    // returnerar ett begränsat antalal bilder
+    // Returnera de 40 första resultaten
     return artworkWithImages.slice(0, 40);
 
   }
-  // om vi inte får tillbaka någon data
+  // Om vi inte får tillbaka någon data
   catch(error){
     console.error("Error fetching artworks:", error);
     alert("Error fetching image data");
@@ -100,19 +127,31 @@ async function fetchArt(searchTerm){
   }
 }
 
-//Separat funktion för hantering av resultat
+
+
+// --------------------------------------------------------------------------
+// renderArtWorks()
+// Renderar sökresultat i DOM:en
+// Flöde:
+// 1. Rensar gamla resultat
+// 2. Visar meddelande om inga finns
+// 3. Annars visar antal träffar + bilder
+// --------------------------------------------------------------------------
 function renderArtWorks(artworks) {
 
-  // Hämta huvud-divarna där sökresultatet ska visas
+  // Hämta referenser till huvudcontainrarna där sökresultat ska visas:
   const imageResultContainer = document.getElementById('art-results');
   const textResultContainer = document.getElementById('search-result-container');
 
-  // Töm tidigare sökresultat i båda containrarna
+  // Rensa tidigare resultat
   imageResultContainer.innerHTML = '';
   textResultContainer.innerHTML = '';
 
+
+  // Hämta referens till border element:
   const borderContainer = document.getElementById('search-result-container');
-  // Om inga resultat hittas – visa meddelande och avbryt funktionen
+
+  // Om inga resultat hittades
   if(artworks.length === 0){
     alert("No artworks found.");
     borderContainer.classList.add('hidden-border');
@@ -120,14 +159,17 @@ function renderArtWorks(artworks) {
     return;
   }
 
+
+  // Visa border
   borderContainer.classList.remove('hidden-border');
-  // Visa hur många träffar sökningen gav
+
+  // Visa antal träffar
   textResultContainer.textContent = `Your search resulted in ${artworks.length} hits:`;
 
-  // Loopa igenom alla konstverk och skapa HTML-element för varje
+  // Rendera varje bild
   for (let art of artworks) {
 
-    //variabler som vi tilldelar:
+
     // Bildens URL (från API:ets IIIF-system)
     const imgUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
 
@@ -139,12 +181,13 @@ function renderArtWorks(artworks) {
 
     // Skapa en container (div) för varje konstverksblock
     const artBlock = document.createElement('div');
+
     // Tilldela CSS-klassen som styr layout och utseende
     artBlock.classList.add('art-result-block');
 
     // Skapa bild-element och tilldela bildens URL
     const img = document.createElement('img');
-    // tilldela bilder från api:t
+    // tilldela bilder från api:et
     img.src = imgUrl;
 
     // Skapa text-element som beskriver titel och artist
@@ -161,7 +204,13 @@ function renderArtWorks(artworks) {
   }
 }
 
-// Funktion för att söka efter konstverk
+
+
+
+// --------------------------------------------------------------------------
+// searchArt()
+// Hanterar sökfältets manuella sökning (text-input)
+// --------------------------------------------------------------------------
 async function searchArt(inputOveride = null){
 
   // Hämta sökfältet från DOM
@@ -181,34 +230,72 @@ async function searchArt(inputOveride = null){
   renderArtWorks(artWorks);
 }
 
+
+// --------------------------------------------------------------------------
+// setupSearchButton()
+// kopplar sökknappen + rensning när inputfältet töms
+// Flöde:
+// - Klick på knappen; sökning
+// - Radera all text; rensa resultaten
+// --------------------------------------------------------------------------
  function setupSearchButton(){
+
+   // Hämta sök-knappen och koppla click-event för att starta sökning
    const searchButton = document.getElementById('search-button')
     searchButton.addEventListener('click', () => searchArt());
 
+   // Hämta sökfältet och lyssna på input för att rensa resultat när fältet töms
    const searchInput = document.getElementById('search-bar')
    searchInput.addEventListener('input', function(){
      if(this.value.trim() === ""){ clearArtWorks()}
    });
  }
+ // Kör searchfunktionaliteten
  setupSearchButton();
 
+
+
+// --------------------------------------------------------------------------
+// clearArtWorks()
+// Tömmer resultatet + text + tar bort border
+// Används när:
+// - search-bar töms på text
+// - filterBlock avmarkeras
+// --------------------------------------------------------------------------
 function clearArtWorks(){
+
+  // Hämta containrar för bilder och text
   const imageResultContainer = document.getElementById('art-results');
   const textResultContainer = document.getElementById('search-result-container');
 
+  // Töm tidigare sökresultat
   imageResultContainer.innerHTML = '';
   textResultContainer.innerHTML = '';
 
+  // Dölj textcontainern tills nya resultat visas
   textResultContainer.classList.add('hidden-border');
 }
 
+
+
+// --------------------------------------------------------------------------
+// removePlaceHolderText()
+// Gör så att placeholder försvinner vid focus och återkommer vid blur
+// --------------------------------------------------------------------------
 function removePlaceholderText(){
+  // Hämta sökfältet
   let searchInput = document.getElementById('search-bar');
+
+  // När användaren klickar i sökfältet
   searchInput.addEventListener('focus', function(){
+    // Spara nuvarande placeholder
     this.dataset.placeholderBackup = this.placeholder;
+    // Töm placeholder
     this.placeholder = "";
 
+    // När användaren lämnar fältet
     searchInput.addEventListener('blur', function(){
+      // Återställ placeholder om fältet är tomt
       if(this.value === ''){
         this.placeholder = this.dataset.placeholderBackup || 'Search by Artist....';
       }
@@ -217,27 +304,32 @@ function removePlaceholderText(){
 }
 
 
-// functionalitet för hamburgermaneyn
-
+// --------------------------------------------------------------------------
+// HAMBURGERMENYN - togglar visning av dropdown-menyn (ej kopplad till någon mer funktionalitet i nuläget)
+// --------------------------------------------------------------------------
 const hamburgerMenu = document.getElementById('hamburger-menu');
 const menuList = document.getElementById('menu-list');
 
 hamburgerMenu.addEventListener('click', function() {
 
   if(menuList.classList.contains('hidden')) {
-    menuList.classList.remove('hidden');
+    menuList.classList.remove('hidden'); // Visa menyn
   }else{
-    menuList.classList.add('hidden');
+    menuList.classList.add('hidden'); // dölj menyn
   }
-  //menuList.classList.toggle('hidden'); // togglar visning
-  //console.log(hamburgerMenu, menuList);
 });
 
 
 
-
-
-
+// ---------------------------------------------------------------------------
+// Funktionalitet att lägga till i framtiden:
+// search-bar ska auto-fyllas när man klickar ett filter
+// search-bar ska tömmas när filter avmarkeras
+// lägg till keyboard-controls (Enter för sök)
+// Addera funktionalitet för hamburgermenyn
+// – när man klickar på en kategori ska motsvarande sida eller sektion öppnas
+// Exempel på kategorier: "Spara konst", "About", "Kontakt" osv.
+// ---------------------------------------------------------------------------
 
 
 

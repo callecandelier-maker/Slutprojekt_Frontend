@@ -74,7 +74,7 @@ body {
   margin-top: 80px;
   margin-bottom: 10px;
   font-size: 80px;
-  /*letter-spacing: -1px;*/
+  letter-spacing: -1px;
 
 }
 /* Denna lägger 6 irad men blir inte dynamisk*/
