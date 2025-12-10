@@ -297,7 +297,7 @@ function removePlaceholderText(){
     searchInput.addEventListener('blur', function(){
       // Återställ placeholder om fältet är tomt
       if(this.value === ''){
-        this.placeholder = this.dataset.placeholderBackup || 'Search by Artist....';
+        this.placeholder = this.dataset.placeholderBackup || 'Search by artist, title....';
       }
     })
   });
