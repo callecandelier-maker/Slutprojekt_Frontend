@@ -114,7 +114,7 @@ body {
   margin-left: 60px;
   margin-right: 60px;
   padding-bottom: 100px;
-  border-bottom: black solid .5px;
+  /*border-bottom: black solid .5px;*/
 
 }
 
@@ -259,13 +259,20 @@ h2{
   margin-top: 100px;
 }
 
+
+
 #search-result-container {
   text-align: center;
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
-  margin-top: 60px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-left: 60px;
+  margin-right: 60px;
   font-size: 14px;
   color: #7a7a7a;
   padding-bottom: 10px;
+  border-bottom: black solid .5px;
+}
+.hidden-border {
+  border-bottom: none !important;
 }

@@ -109,12 +109,16 @@ function renderArtWorks(artworks) {
   imageResultContainer.innerHTML = '';
   textResultContainer.innerHTML = '';
 
+  const borderContainer = document.getElementById('search-result-container');
   // Om inga resultat hittas – visa meddelande och avbryt funktionen
   if(artworks.length === 0){
     alert("No artworks found.");
+    borderContainer.classList.add('hidden-border');
     textResultContainer.textContent = 'No images available for this search!';
     return;
   }
+
+  borderContainer.classList.remove('hidden-border');
   // Visa hur många träffar sökningen gav
   textResultContainer.textContent = `Your search resulted in ${artworks.length} hits:`;
 
