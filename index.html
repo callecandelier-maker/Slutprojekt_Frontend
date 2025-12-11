@@ -46,19 +46,22 @@
 
 <h1 class="h1-txt">The Art Browser</h1>
 
+<!-- Container som håller ihop sökfältet och sökknappen -->
 <div class="search-container">
+
+  <!-- Sökfält där användaren kan skriva artistnamn eller titel -->
   <input id="search-bar" class="icon" type="text" placeholder="Search by artist, title....">
+
+  <!-- Sökknappen som triggar sökfunktionen via JS -->
   <button id="search-button">Search</button>
 </div>
 
-<!--
-<div>
-  <p>Filter by art period:</p>
-</div>
--->
 
+<!-- Container för de sex huvudkategorierna (Renaissance, Romantic etc.) -->
 <div class="main-image-container">
 
+  <!-- En kategori: Renaissance -->
+  <!-- data-period används i JS för att filtrera konstverk baserat på epok -->
   <div class="image-block" data-period="Renaissance">
     <div class="image-wrapper" style="background-image: url('img/nedladdning.jpg');"></div>
     <p>Renaissance</p>
@@ -90,10 +93,13 @@
   </div>
 
 </div>
+
+<!-- Container som visar texten "Search results for…" -->
+<!-- class="hidden-border" används för att dölja border när inget sökresultat finns -->
 <div id="search-result-container" class="hidden-border"></div>
-<!--<h2>Filtered Artworks:</h2>-->
 
 
+<!-- Här lägger JavaScript in alla renderade konstverk efter sökning eller filtrering -->
 <div id="art-results" class="art-results-container">
   <!-- Här adderas konstverken från från funktionen renderArtWorks() -->
 </div>
