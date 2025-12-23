@@ -329,6 +329,7 @@ hamburgerMenu.addEventListener('click', function() {
 // Addera funktionalitet för hamburgermenyn
 // – när man klickar på en kategori ska motsvarande sida eller sektion öppnas
 // Exempel på kategorier: "Spara konst", "About", "Kontakt" osv.
+// Addera en animtion på border medan bilderna laddas - border fylls i från vänster till höger
 // ---------------------------------------------------------------------------
 
 
